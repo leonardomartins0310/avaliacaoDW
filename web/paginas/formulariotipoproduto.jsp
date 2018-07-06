@@ -12,8 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form method="post" action="${pageContext.request.contextPath}/produto">
-            <input type="text" name="nomeProduto"/>
+        <form method="post" action="${pageContext.request.contextPath}/FormularioServlet">
+            <input type="text" name="idTipoProduto"/>
+            <input type="text" name="tipoProduto"/>
             <input type="submit" name="ok"/>
         </form>
     </body>

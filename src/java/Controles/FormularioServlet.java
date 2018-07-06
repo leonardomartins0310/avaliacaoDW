@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controle;
+package Controles;
 
 import DAOs.DAOTipoproduto;
 import Entidades.Tipoproduto;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
-import java.util.List;
-import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,13 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Jaque
+ * @author a1712047
  */
-@WebServlet(name = "TipoprodutoServlet", urlPatterns = {"/tipoproduto"})
-public class TipoprodutoServlet extends HttpServlet {
-
-    Locale ptBr = new Locale("pt", "BR");
-    NumberFormat formatoDinheiro = NumberFormat.getCurrencyInstance(ptBr);
+@WebServlet(name = "FormularioServlet", urlPatterns = {"/FormularioServlet"})
+public class FormularioServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,48 +34,26 @@ public class TipoprodutoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String nomeTipoproduto = "";
-
         try (PrintWriter out = response.getWriter()) {
-            nomeTipoproduto = request.getParameter("Tipoproduto");
-
-            String resultado = "";
-            if (nomeTipoproduto == null || nomeTipoproduto.equals("")) {
-                resultado = listaTipoprodutosCadastrados();
-            } else {
-                resultado = listaTipoprodutoNome(nomeTipoproduto);
-            }
-            request.getSession().setAttribute("resultado", resultado);
-            response.sendRedirect(request.getContextPath() + "/paginas/tipoproduto.jsp");
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet FormularioServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet FormularioServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+            
+            int x= Integer.parseInt(request.getParameter("idTipoProduto"));
+            String y = request.getParameter("tipoProduto");
+            DAOTipoproduto dao= new DAOTipoproduto();
+            Tipoproduto tipo= new Tipoproduto();
+            tipo.setTipoProduto(y);
+            tipo.setIdTipoProduto(x);
+            dao.adicionar(tipo);
         }
-    }
-
-    protected String listaTipoprodutoNome(String nomeTipoproduto) {
-        DAOTipoproduto Tipoproduto = new DAOTipoproduto();
-        String tabela = "";
-        List<Tipoproduto> lista = Tipoproduto.listByNome(nomeTipoproduto);
-        for (Tipoproduto l : lista) {
-            tabela += "<tr>"
-                    + "<td>" + l.getIdTipoProduto()+ "</td>"
-                    + "<td>" + l.getTipoProduto() + "</td>"
-                    + "</tr>";
-        }
-        
-        return tabela;
-    }
-
-    protected String listaTipoprodutosCadastrados() {
-        DAOTipoproduto Tipoproduto = new DAOTipoproduto();
-        String tabela = "";
-        List<Tipoproduto> lista = Tipoproduto.listInOrderNome();
-        for (Tipoproduto l : lista) {
-            tabela += "<tr>"
-                    + "<td>" + l.getIdTipoProduto()+ "</td>"
-                    + "<td>" + l.getTipoProduto() + "</td>"
-                    + "</tr>";
-        }
-
-        return tabela;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -97,7 +69,6 @@ public class TipoprodutoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        System.out.println("teste doget");
     }
 
     /**
@@ -112,7 +83,6 @@ public class TipoprodutoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        System.out.println("teste dopost");
     }
 
     /**
